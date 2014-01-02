@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        .viewbind {
+        }
+    </style>
+</head>
+<body>
+    <h1 data-viewbind-boot="">
+        Welcome To viewbinder!
+        This Lib Automatically binds all your views together and calls methods or sets up events
+        <h2 data-viewbind-view="Partials/subHeaderText.html"></h2>
+    </h1>
+
+    <div class="viewbind" data-viewbind-effect="fadeIn" data-viewbind-model="target=.mytarget=html" data-viewbind-cast="click=RelayRemoveUserMessages"> click me to see model in action</div>
+
+    <div class="viewbind" data-viewbind-cast="click=RelayRemoveUserMessages" data-viewbind-model="html" data-viewbind-view="Partials/header.html"></div>
+    <div class="viewbind" data-viewbind-effect="fadeIn" data-viewbind-view="Partials/body.html"></div>
+    <div class="viewbind" data-viewbind-effect="fadeIn" data-viewbind-view="Partials/footer.html"></div>
+    <script src="jquery-1.10.2.min.js"></script>
+    <script src="viewbinder.js"></script>
+    <script>
+        viewbinder.init({ rootUrl: "/" });
+        function me() {
+            alert("same element");
+        };
+        viewbinder.on("RemoveUserMessages", function (e, viewControl, arg) {
+            alert("the event object i have is :" + e.originalEvent.type);
+            alert("I will now unload what you clicked on");
+            viewControl.unload('Partials/delayedView.html');
+            alert("Transmiting message");
+            setTimeout(function () {
+                viewbinder.broadcast("RelayRemoveUserMessages", "Hey its me, relaying the message!");
+            }, 200);
+        });
+
+        viewbinder.on("RelayRemoveUserMessages", function (e, viewControl, arg) {
+            alert("I have an arg of : " + arg);
+            alert("the event object i have is : " + e);
+            alert("I got message from the broadcaster, I will now load it back!");
+
+            viewControl.reload('Partials/delayedView.html');
+        });
+
+        var myObject = {
+            myFunction: function (e, viewControl, arg) {
+                alert("the event object i have is :" + e.originalEvent.type);
+                alert("im about to load a view");
+                viewControl.load('Partials/delayedView.html');
+                setTimeout(function () {
+                    alert("Now Ill unload that view!");
+                    viewControl.unload('Partials/delayedView.html');
+                    setTimeout(function () {
+                        alert("Now Ill reload that view!");
+                        viewControl.reload('Partials/delayedView.html');
+                        setTimeout(function () {
+                            alert("And Im done messing with you");
+                        }, 200);
+                    }, 200);
+                }, 200);
+            },
+            myAumaticallyCalledFunction: function (e, viewControl, arg) { alert("Hello"); }
+        };
+    </script>
+</body>
+</html>

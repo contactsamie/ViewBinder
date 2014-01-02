@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewBinder.WebAPISample", "ViewBinder.WebAPISample\ViewBinder.WebAPISample.csproj", "{57F7743A-C6E8-426B-BE43-7AC42ECE5567}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewBinder", "ViewBinder\ViewBinder.csproj", "{95CF184D-CA07-4190-8FFB-85C804312333}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pkg-nuget", "pkg-nuget", "{C2856D89-C9D9-421F-9946-06D7D4A5868E}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\dom\Desktop\ViewBinder.MVC.1.0.0.nupkg = C:\Users\dom\Desktop\ViewBinder.MVC.1.0.0.nupkg
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{57F7743A-C6E8-426B-BE43-7AC42ECE5567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57F7743A-C6E8-426B-BE43-7AC42ECE5567}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57F7743A-C6E8-426B-BE43-7AC42ECE5567}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57F7743A-C6E8-426B-BE43-7AC42ECE5567}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95CF184D-CA07-4190-8FFB-85C804312333}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95CF184D-CA07-4190-8FFB-85C804312333}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95CF184D-CA07-4190-8FFB-85C804312333}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95CF184D-CA07-4190-8FFB-85C804312333}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

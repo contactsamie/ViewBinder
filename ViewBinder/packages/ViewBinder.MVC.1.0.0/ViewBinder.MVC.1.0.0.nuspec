@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>ViewBinder.MVC</id>
+    <version>1.0.0</version>
+    <title>View Binder - FrontEnd Framework For Dynamic Loading Of Views, Standard and custom Event Broadcast and Propagation</title>
+    <authors>Samuel Bamgboye</authors>
+    <owners>Samuel Bamgboye</owners>
+    <licenseUrl>http://opensource.org/licenses/MS-PL</licenseUrl>
+    <projectUrl>https://github.com/contactsamie/ViewBinder</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>FrontEnd Framework For Dynamic Loading Of Views, Standard and custom Event Broadcast and Propagation
+
+After Install, Point your browser to http://[YOUR ROOT]/viewbindersample,
+
+ e.g http://localhost:51163/viewbindersample</description>
+    <summary>This will add in classes and sample view to help yu get started with ViewBinder Framework in your .NET MVC Project
+
+After Install, Point your browser to http://[YOUR ROOT]/viewbindersample,
+
+ e.g</summary>
+    <releaseNotes>This will add in classes and sample view to help yu get started with ViewBinder Framework in your .NET MVC Project
+
+After Install, Point your browser to http://[YOUR ROOT]/viewbindersample,
+
+ e.g http://localhost:51163/viewbindersample</releaseNotes>
+    <copyright>samuel bamgboye</copyright>
+    <tags>javascript framework jquery view mvc webapi razor dynamic</tags>
+    <dependencies>
+      <dependency id="jQuery" version="1.9.1" />
+    </dependencies>
+  </metadata>
+</package>
