@@ -63,6 +63,7 @@
     <Content Include="Partials\delayedView.html" />
     <Content Include="Partials\footer.html" />
     <Content Include="Partials\header.html" />
+    <Content Include="Partials\Hello.html" />
     <Content Include="Partials\subHeaderText.html" />
     <Content Include="viewbinder.js" />
     <Content Include="viewbinder.min.js" />

@@ -1,0 +1,6 @@
+G:\ViewBinder\ViewBinder\ViewBinder\bin\ViewBinder.dll.config
+G:\ViewBinder\ViewBinder\ViewBinder\bin\ViewBinder.dll
+G:\ViewBinder\ViewBinder\ViewBinder\bin\ViewBinder.pdb
+G:\ViewBinder\ViewBinder\ViewBinder\obj\Debug\ViewBinder.csprojResolveAssemblyReference.cache
+G:\ViewBinder\ViewBinder\ViewBinder\obj\Debug\ViewBinder.dll
+G:\ViewBinder\ViewBinder\ViewBinder\obj\Debug\ViewBinder.pdb

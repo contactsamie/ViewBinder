@@ -2,7 +2,7 @@
 /*
 By Samuel Bamgboye v1.0.0 | 2013
 */
-$ && (function() {
+$ && (function () {
 
     var bootstrap = "data-viewbind-boot";
     var modelAttr = "data-viewbind-model";
@@ -25,31 +25,47 @@ $ && (function() {
     var rootUrl = "";
 
 
-   
-
-    var identityGenerator = function() {
+    var identityGenerator = function () {
         identityGenerator.id = identityGenerator.id ? (identityGenerator.id + 1) : 1;
         return identityGenerator.id;
     };
-    var delayViewTrigger = function(view) {
+    var delayViewTrigger = function (view) {
         if (view) {
+
             $("[" + refAtLocator + "='" + view + "']").removeAttr(refviewdelay);
             $viewbinderViewLoader("selector");
         }
     };
 
-    var unloadView = function(view) {
+    var unloadView = function (view) {
         if (view) {
             $("[" + refAtLocator + "='" + view + "']").html("");
             $viewbinderViewLoader(selector);
         }
     };
 
-    var reloadView = function(view) {
+    var reloadView = function (view) {
         if (view) {
-            $("[" + refAtLocator + "='" + view + "']").removeAttr(refviewdelay);
-            $("[" + refAtLocator + "='" + view + "']").removeAttr(refExLocator);
-            $("[" + refAtLocator + "='" + view + "']").html("");
+
+            if (view.split('=')[1]) {
+                if ($("[" + refAtLocator + "='" + view + "']").size()) {
+                    var eleObj1 = $("[" + refAtLocator + "='" + view + "']");
+
+                    eleObj1.removeAttr(refviewdelay);
+                    eleObj1.removeAttr(refExLocator);
+                    eleObj1.html("");
+                } else {
+                    $('body').append('<div style="display:none" class="viewbind"  data-viewbind-view="' + view + '"></div>');
+                }
+
+            } else {
+                var eleObj = $("[" + refAtLocator + "='" + view + "']");
+
+                eleObj.removeAttr(refviewdelay);
+                eleObj.removeAttr(refExLocator);
+                eleObj.html("");
+            }
+
             $viewbinderViewLoader(selector);
         }
     };
@@ -60,27 +76,57 @@ $ && (function() {
     };
 
 
-    var loadViewWithEffect = function(destinationRef, viewUrl, callback, effect) {
+    var loadViewWithEffect = function (destinationRef, rootUrl, viewUrl, callback, effect) {
         if (destinationRef && viewUrl) {
-            effect && $(destinationRef).css("display", "none");
-            $.get(viewUrl,
-                function(data) {
-                    $(destinationRef).html(data);
-                    effect ? $(destinationRef)[effect]("fast", function() { typeof callback === "function" && callback(data, "", ""); }) :
-                        (typeof callback === "function" && callback(data, "", ""));
+            rootUrl = rootUrl || "";
+            var oldContext = destinationRef;
 
-                },
-                "html"
-            );
+
+            var viewParts = viewUrl.split("=");
+
+            var destination = viewParts[0];
+            var source = viewParts[1];
+
+            var accessDestination = destination;
+            if (!source) {
+                accessDestination = destinationRef;
+                source = rootUrl + destination;
+            } else {
+                source = rootUrl + source;
+
+                accessDestination = "[" + refAtLocator + "='" + destination + "']";
+
+            }
+
+
+            var dest = $(accessDestination);
+            effect && dest.css("display", "none");
+            if (dest.size()) {
+                $.get(source,
+                    function (data) {
+                        dest.html(data);
+                        effect ? dest[effect]("fast", function () { typeof callback === "function" && callback(data, "", ""); }) :
+                            (typeof callback === "function" && callback(data, "", ""));
+
+                    },
+                    "html"
+                );
+            } else {
+                console.error("destination view area cannot be found as specified at :");
+                console.error(oldContext);
+                (typeof callback === "function" && callback({}, "", ""));
+            }
+
+
         }
 
     };
 
-    var bCastObject = {        
-        
+    var bCastObject = {
+
     };
     var viewLinking = [];
-    var methodArgExtrator = function(modelRef, context) {
+    var methodArgExtrator = function (modelRef, context) {
         var MetArg = {};
 
         if (modelRef) {
@@ -100,7 +146,7 @@ $ && (function() {
         }
         return MetArg;
     };
-    var getFunctionFromString = function(string) {
+    var getFunctionFromString = function (string) {
         var scope = window;
         var scopeSplit = string.split('.');
 
@@ -117,7 +163,7 @@ $ && (function() {
             context: scope,
         };
     };
-    var eventSetup = function(_setting, element, modelRef) {
+    var eventSetup = function (_setting, element, modelRef) {
         if (_setting) {
             var allSettings = _setting.split(",");
             var allSettingsLength = allSettings.length;
@@ -130,7 +176,7 @@ $ && (function() {
                         var fun = arr[1];
                         var fn = getFunctionFromString(fun).method;
 
-                        typeof fn === "function" && element && ev && $(element).on(ev, function(e) {
+                        typeof fn === "function" && element && ev && $(element).on(ev, function (e) {
                             var MetArg = methodArgExtrator(modelRef, this);
 
 
@@ -146,7 +192,7 @@ $ && (function() {
     };
 
 
-    var broadcastSetup = function(_setting, element, isMethodbroadcast, bCastArg, modelRef) {
+    var broadcastSetup = function (_setting, element, isMethodbroadcast, bCastArg, modelRef) {
         if (_setting) {
             var allSettings = _setting.split(",");
             var allSettingsLength = allSettings.length;
@@ -174,7 +220,7 @@ $ && (function() {
                             $viewbinderViewLoader(selector);
                         } else {
 
-                            element && ev && $(element).on(ev, function(e) {
+                            element && ev && $(element).on(ev, function (e) {
                                 var bcasts = bCastObject[fun];
                                 var MetArg = methodArgExtrator(modelRef, this);
                                 var bcastsLength = bcasts.length;
@@ -196,7 +242,7 @@ $ && (function() {
 
     };
 
-    var stringMethodCall = function(_method, context, modelRef) {
+    var stringMethodCall = function (_method, context, modelRef) {
         if (_method) {
             var allSettings = _method.split(",");
             var allSettingsLength = allSettings.length;
@@ -211,7 +257,7 @@ $ && (function() {
 
                         fn && typeof fn.method === "function" && fn.method.apply(context, [{}, viewControl, MetArg]);
 
-                    } catch(execp) {
+                    } catch (execp) {
                         console.error("could not invoke method " + method + " found in " + _method);
                         execp.message && console.error(execp.message);
                         console.error(execp);
@@ -222,20 +268,20 @@ $ && (function() {
 
 
     };
-    var broadcastMehtod = function(bCastName, bCastObject) {
+    var broadcastMehtod = function (bCastName, bCastObject) {
         bCastName && broadcastSetup("bcast=" + bCastName, {}, true, bCastObject || "");
     };
     window.viewbinder = {
-        init: function(settings) {
+        init: function (settings) {
             if (settings) {
                 rootUrl = settings.rootUrl || rootUrl;
             }
-            $(function() {
+            $(function () {
 
 
-                window.$viewbinderViewLoader = function(ref, mapingObject, prevLev, curLev) {
+                window.$viewbinderViewLoader = function (ref, mapingObject, prevLev, curLev) {
 
-                    $(ref).each(function() {
+                    $(ref).each(function () {
                         if ($(this).is("[" + refviewdelay + "]") || $(this).attr(refExLocator)) {
 
                         } else {
@@ -259,7 +305,7 @@ $ && (function() {
                                 var url = $(this).attr(refAtLocator);
                                 var effectToLoadWith = $(this).attr(effectsOnLoad);
                                 var context = this;
-                                var loadEventHandler = function(response, status, xhr) {
+                                var loadEventHandler = function (response, status, xhr) {
 
                                     if (status == "error") {
                                         console.error("failure loading view - " + url + ":");
@@ -270,33 +316,34 @@ $ && (function() {
 
                                     var subViews = $(context).find(selector);
                                     if (subViews.size() > 0) {
-                                        subViews.each(function() {
+                                        subViews.each(function () {
 
                                             $viewbinderViewLoader(this, level, nextLevel);
                                         });
-                                    } else {
-                                        (function(context) {
-                                            setTimeout(function() {
-                                                var callback = $(context).attr(callBackAttr);
-                                                var eventSet = $(context).attr(eventAttr);
-                                                var bCastSet = $(context).attr(broadcastAttr);
-                                                var modelRef = $(context).attr(modelAttr);
-                                                callback && stringMethodCall(callback, context, modelRef);
-                                                eventSet && eventSetup(eventSet, context, modelRef);
-                                                bCastSet && broadcastSetup(bCastSet, context, false, false, modelRef);
-                                            }, 100);
-                                        })(context);
                                     }
+                                    (function (context) {
+                                        setTimeout(function () {
+                                            var url = $(context).attr(refAtLocator);
+                                            var callback = $(context).attr(callBackAttr);
+                                            var eventSet = $(context).attr(eventAttr);
+                                            var bCastSet = $(context).attr(broadcastAttr);
+                                            var modelRef = $(context).attr(modelAttr);
+                                            callback && stringMethodCall(callback, context, modelRef);
+                                            eventSet && eventSetup(eventSet, context, modelRef);
+                                            bCastSet && broadcastSetup(bCastSet, context, false, false, modelRef);
+                                        }, 100);
+                                    })(context);
+
                                 };
 
                                 loadEventHandler("element is just enabled with no view to load", "success", {});
                                 if (url) {
-                                    loadViewWithEffect(this, rootUrl + url, loadEventHandler, effectToLoadWith || "");
+                                    loadViewWithEffect(this, rootUrl, url, loadEventHandler, effectToLoadWith || "");
                                     //: $(this).load(rootUrl + url, loadEventHandler);
                                 }
                                 $(this).attr(refExLocator, true);
 
-                            } catch(exc) {
+                            } catch (exc) {
                                 console.error("failure loading view - " + url + ":");
                                 console.error(exc);
                                 $(this).attr(refErrLocator, true);
@@ -309,7 +356,7 @@ $ && (function() {
                 $viewbinderViewLoader(selector);
             });
         },
-        on: function(bCastName, f) {
+        on: function (bCastName, f) {
             if (typeof f === "function" && bCastName) {
 
                 bCastObject[bCastName] = bCastObject[bCastName] || [];
@@ -324,7 +371,7 @@ $ && (function() {
         },
         broadcast: broadcastMehtod,
         view: viewControl,
-        mappings: function() {
+        mappings: function () {
 
             return {
                 broadcast: bCastObject,

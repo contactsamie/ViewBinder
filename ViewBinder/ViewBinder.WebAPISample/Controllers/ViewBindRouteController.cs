@@ -14,9 +14,9 @@ namespace ViewBinder.WebAPISample.Controllers
         {
             if (Request.IsAjaxRequest())
             {
-                return PartialView("~/Views/Partials/" + viewName + ".cshtml");
+                return PartialView("~/" + viewName + ".cshtml");
             }
-            return View("~/Views/Partials/" + viewName + ".cshtml");
+            return View("~/" + viewName + ".cshtml");
         }
     }
 }
